@@ -1,6 +1,4 @@
-# permissions.py
-
-from rest_framework import permissions
+from rest_framework import permissions # type: ignore
 
 class IsAdmin(permissions.BasePermission):
     """Allow access only to users with the 'admin' role."""
@@ -27,16 +25,3 @@ class IsOwner(permissions.BasePermission):
     
     def has_object_permission(self, request, view, obj):
         return request.user == obj.user  # Sesuaikan dengan field yang tepat
-    
-class IsAdminOrSeller(permissions.BasePermission):
-    def has_permission(self, request, view):
-        return request.user.role in ['admin', 'seller']
-
-class IsAdminOrOwner(permissions.BasePermission):
-    """
-    Mengizinkan hanya admin atau pemilik produk untuk mengakses atau memodifikasi produk.
-    """
-    def has_object_permission(self, request, view, obj):
-        # Hanya admin atau pemilik objek yang bisa mengakses atau memodifikasi
-        return request.user.role == 'admin' or obj.owner == request.user
-
